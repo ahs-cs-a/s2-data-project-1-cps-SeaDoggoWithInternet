@@ -5,7 +5,7 @@ import java.io.File;
 public class ReadData-Student{
     //I hard-coded the number of rows and columns so 
     //I could use a 2D array
-    private double[][] data = new double[...][...];
+    private double[][] data = new double[21200][15];
 
     //This should read in the csv file and store the data in a 2D array,
     //data -- don't forget to skip the header line and parse everything
@@ -16,9 +16,12 @@ public class ReadData-Student{
             int row = 0;
             scanner.nextLine(); // Skip the header line
             while(scanner.hasNextLine()){
-                String line = scanner.nextLine();
+                String line = scanner.nextLine(); //does this not skip a line too? oh well...
                 String[] lineArr = line.split(",");
-                ...
+                for (int i = 0; i < lineArr.length; i++){
+                    Double.parseDouble(lineArr[i]);
+                    data[row][i] = lineArr[i];
+                }
                 row++;
             }
             scanner.close();
@@ -35,8 +38,10 @@ public class ReadData-Student{
     //this should return a double array of the column
     //of data
     public double[] getColumn(int col){
-        double[] column = ...
-        ...
+        double[] column = new double[21200];
+        for (int i = 0; i < data.length; i++){
+            column[i] = data[i][col];
+        }
         return column;
     }
 
@@ -50,27 +55,31 @@ public class ReadData-Student{
     //and Math.sqrt to take the square root
     public double stdDeviation(double[] arr){
         double sum = 0;
-        double mean = ...
-        ...
-        return .. //sample variance!
+        double mean = mean(arr);   
+        for (int i = 0; i < arr.length; i++){
+            sum += Math.pow((arr[i]-mean));
+        } 
+        return Math.sqrt(sum/(arr.length-1)); //sample variance!
     }
     
     //this returns the mean of the column of data passed in
     //the mean is the sum of the values divided by the number of values
     public double mean(double[] arr){
         double sum = 0;
-        ...
-        return ...;
+        for (int i = 0; i < arr.length; i++){
+            sum += arr[i];
+        }
+        return sum/(arr.length); //hopefully this wont be an issue later
     }
 
     //this returns the values of a column in standard units
     //the standard units are the value minus the mean divided by the standard deviation
     //this should return a double array of the standard units
     public double[] standardUnits(double[] arr){
-        double[] stdArr = ...
-        double stdDeviation = ...;
-        double mean = ...;
-        ...
+        double[] stdArr = new double[arr.length];
+        double stdDeviation = stdDeviation(arr);
+        double mean = mean(arr);
+        for (int i = 0; i < arr.length; i++);
         return stdArr;
     }
     
