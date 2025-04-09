@@ -5,7 +5,7 @@ import java.io.File;
 public class ReadData{//-Student{
     //I hard-coded the number of rows and columns so 
     //I could use a 2D array
-    private double[][] data = new double[21907][14];
+    private double[][] data = new double[21908][14];
 
     //This should read in the csv file and store the data in a 2D array,
     //data -- don't forget to skip the header line and parse everything
@@ -37,7 +37,7 @@ public class ReadData{//-Student{
     //this should return a double array of the column
     //of data
     public double[] getColumn(int col){
-        double[] column = new double[21907];
+        double[] column = new double[21908];
         for (int i = 0; i < data.length; i++){
             column[i] = data[i][col];
         }
@@ -96,7 +96,7 @@ public class ReadData{//-Student{
         for (int i = 0; i < x.length; i++){
             sum += (x[i]*y[i]);
         }
-        sum = sum/(x.length+y.length-1);
+        sum = sum/(x.length-1);
         return sum;    
     }
     
