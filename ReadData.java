@@ -2,10 +2,10 @@ import java.util.Scanner;
 import java.io.File;
 
 
-public class ReadData-Student{
+public class ReadData{//-Student{
     //I hard-coded the number of rows and columns so 
     //I could use a 2D array
-    private double[][] data = new double[21200][15];
+    private double[][] data = new double[21907][14];
 
     //This should read in the csv file and store the data in a 2D array,
     //data -- don't forget to skip the header line and parse everything
@@ -19,8 +19,7 @@ public class ReadData-Student{
                 String line = scanner.nextLine(); //does this not skip a line too? oh well...
                 String[] lineArr = line.split(",");
                 for (int i = 0; i < lineArr.length; i++){
-                    Double.parseDouble(lineArr[i]);
-                    data[row][i] = lineArr[i];
+                    data[row][i] = Double.parseDouble(lineArr[i]);
                 }
                 row++;
             }
@@ -38,7 +37,7 @@ public class ReadData-Student{
     //this should return a double array of the column
     //of data
     public double[] getColumn(int col){
-        double[] column = new double[21200];
+        double[] column = new double[21907];
         for (int i = 0; i < data.length; i++){
             column[i] = data[i][col];
         }
@@ -57,7 +56,7 @@ public class ReadData-Student{
         double sum = 0;
         double mean = mean(arr);   
         for (int i = 0; i < arr.length; i++){
-            sum += Math.pow((arr[i]-mean));
+            sum += Math.pow((arr[i]-mean), 2);
         } 
         return Math.sqrt(sum/(arr.length-1)); //sample variance!
     }
@@ -79,7 +78,9 @@ public class ReadData-Student{
         double[] stdArr = new double[arr.length];
         double stdDeviation = stdDeviation(arr);
         double mean = mean(arr);
-        for (int i = 0; i < arr.length; i++);
+        for (int i = 0; i < arr.length; i++){
+            stdArr[i] = (arr[i]-mean)/stdDeviation;
+        }
         return stdArr;
     }
     
@@ -92,23 +93,26 @@ public class ReadData-Student{
     //the correlation is between -1 and 1
     public double correlation(double[] x, double[] y){
         double sum = 0;
-        ...
-        return ...;    
+        for (int i = 0; i < x.length; i++){
+            sum += (x[i]*y[i]);
+        }
+        sum = sum/(x.length+y.length-1);
+        return sum;    
     }
     
     public void runRegression(){
-        // double[] x = getColumn(7);
-        // double[] y = getColumn(9);
-        // double[] xStd = standardUnits(x);
-        // double[] yStd = standardUnits(y);
-        // double correlation = correlation(xStd, yStd);
-        // double slope = correlation * stdDeviation(y) / stdDeviation(x);
-        // double intercept = mean(y) - slope * mean(x);
-        // System.out.println("Correlation: " + correlation);
-        // System.out.println("Slope: " + slope);
-        // System.out.println("Intercept: " + intercept);
-        // Scatter s = new Scatter();
-        // s.displayScatterPlot(x, y);
+        double[] x = getColumn(7);
+        double[] y = getColumn(9);
+        double[] xStd = standardUnits(x);
+        double[] yStd = standardUnits(y);
+        double correlation = correlation(xStd, yStd);
+        double slope = correlation * stdDeviation(y) / stdDeviation(x);
+        double intercept = mean(y) - slope * mean(x);
+        System.out.println("Correlation: " + correlation);
+        System.out.println("Slope: " + slope);
+        System.out.println("Intercept: " + intercept);
+        Scatter s = new Scatter();
+        s.displayScatterPlot(x, y);
     }
 
     //this prints the array passed in - you may want this for debugging
